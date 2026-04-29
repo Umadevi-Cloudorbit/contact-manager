@@ -4,11 +4,9 @@ import re
 
 app = Flask(__name__)
 
-# DB connection
 def get_db():
     return sqlite3.connect("contacts.db")
 
-# Create table
 def init_db():
     conn = get_db()
     conn.execute('''CREATE TABLE IF NOT EXISTS contacts (
@@ -23,7 +21,6 @@ def init_db():
 
 init_db()
 
-# Home - display contacts
 @app.route('/')
 def index():
     conn = get_db()
@@ -31,7 +28,6 @@ def index():
     conn.close()
     return render_template('index.html', contacts=contacts)
 
-# Add contact
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
@@ -62,7 +58,6 @@ def add():
 
     return render_template('add.html')
 
-# Edit contact
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     conn = get_db()
@@ -88,7 +83,6 @@ def edit(id):
     conn.close()
     return render_template('edit.html', contact=contact)
 
-# Delete contact
 @app.route('/delete/<int:id>')
 def delete(id):
     conn = get_db()
